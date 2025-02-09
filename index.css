@@ -3,6 +3,8 @@ body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
     color: #333;
+    height: 100%;
+    overflow: auto;
 }
 
 /* Navigation Bar */
@@ -47,17 +49,63 @@ h2 {
     color: #222;
 }
 
-/* Services & Portfolio */
-#services .row, #portfolio .row {
+/* Services */
+#services-container {
+    /* margin-top: 10px; */
     display: flex;
-    flex-wrap: wrap;
+    background: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+    height: 80vh;
     justify-content: space-between;
 }
 
-#services .col-md-4, #portfolio .col-md-4 {
-    flex: 1;
-    max-width: 33.333%;
+#services-description {
+    padding: 12vw;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#services-description h2 {
+    font-size: 24px;
+    color: #333;
+}
+
+#services-description p {
+    font-size: 16px;
+    color: #666;
     text-align: center;
+    
+}
+
+#services-carousel {
+    width: 100%;
+    overflow: auto;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    scrollbar-width: none;
+}
+
+.services-carousel::-webkit-scrollbar {
+    display: none;
+}
+
+.service-card {
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    transition: transform 0.5s ease, opacity 0.5s ease;
+    opacity: 0.5; 
+}
+
+.service-card.active {
+    opacity: 1;
 }
 
 #services img, #portfolio img {
@@ -107,6 +155,12 @@ footer p:hover {
     opacity: 0.8;
 }
 
+/* Scroll Animations */
+.scroll-section {
+    opacity: 0;
+    transition: transform 0.5s ease-out, opacity 0.5s ease-out;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     h2 {
@@ -114,6 +168,12 @@ footer p:hover {
     }
     .navbar-nav .nav-link {
         font-size: 1rem;
+    }
+    #services-container {
+        flex-direction: column;
+    }
+    #services-description, #services-carousel {
+        width: 100%;
     }
     #services .col-md-4, #portfolio .col-md-4 {
         max-width: 100%;
