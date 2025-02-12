@@ -51,7 +51,6 @@ h2 {
 
 /* Services */
 #services-container {
-    /* margin-top: 10px; */
     display: flex;
     background: white;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -62,7 +61,7 @@ h2 {
 }
 
 #services-description {
-    padding: 12vw;
+    padding: 5vw;
     background: #fff;
     display: flex;
     flex-direction: column;
@@ -73,18 +72,41 @@ h2 {
 #services-description h2 {
     font-size: 24px;
     color: #333;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
 }
 
 #services-description p {
     font-size: 16px;
     color: #666;
     text-align: center;
-    
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+#services-description h2.active,
+#services-description p.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+#services-description h2:hover {
+    color: #ffcc00;
+    text-shadow: 10px rgba(90, 85, 66, 0.4);
+    transition: color 0.2s ease-in-out, text-shadow 0.3s ease-in-out;
+    cursor: context-menu;
+}
+
+#services-description p:hover {
+    color: #444; 
+    cursor: context-menu;
 }
 
 #services-carousel {
-    width: 100%;
-    overflow: auto;
+    width: 50%;
+    overflow-y: auto;
     position: relative;
     display: flex;
     align-items: center;
@@ -98,10 +120,11 @@ h2 {
 
 .service-card {
     position: absolute;
-    width: 150px;
-    height: 150px;
+    padding-top: 10px;
+    width: 15vw;
+    height: 25vh;
     transition: transform 0.5s ease, opacity 0.5s ease;
-    opacity: 0.5; 
+    opacity: 0.2; 
 }
 
 .service-card.active {
@@ -111,6 +134,8 @@ h2 {
 #services img, #portfolio img {
     border-radius: 10px;
     transition: transform 0.3s;
+    height: 100%;
+    width: 100%;
 }
 
 #services img:hover, #portfolio img:hover {
@@ -155,12 +180,6 @@ footer p:hover {
     opacity: 0.8;
 }
 
-/* Scroll Animations */
-.scroll-section {
-    opacity: 0;
-    transition: transform 0.5s ease-out, opacity 0.5s ease-out;
-}
-
 /* Responsive */
 @media (max-width: 768px) {
     h2 {
@@ -171,11 +190,23 @@ footer p:hover {
     }
     #services-container {
         flex-direction: column;
-    }
-    #services-description, #services-carousel {
+        height: 70vh;
         width: 100%;
+
     }
-    #services .col-md-4, #portfolio .col-md-4 {
-        max-width: 100%;
+    #services-carousel {
+        width: 100%;
+        height: 60%;
+    }
+    #services-description {
+        width: 100%;
+        height: 40%;
+        align-items: center;
+        justify-content: flex-start;
+        padding: 3vh;
+    }
+    .service-card {
+        height: 40%;
+        width: 40%;
     }
 }
