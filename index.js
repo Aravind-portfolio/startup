@@ -74,12 +74,6 @@ function cycleServices(dir) {
 function handleWheel(event) {
     event.preventDefault();
     cycleServices(event.deltaY > 0 ? 1 : -1);
-    }, 650);
-}
-
-function handleWheel(event) {
-    event.preventDefault();
-    cycleServices(event.deltaY > 0 ? 1 : -1);
 }
 
 function enableScroll() {
