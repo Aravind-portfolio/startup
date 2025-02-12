@@ -1,12 +1,8 @@
+// Back to top Button
 const backToTopButton = document.getElementById("backToTop");
 
-// Show or hide back-to-top button on scroll
 window.addEventListener("scroll", function () {
-    if (window.scrollY > 300) {
-        backToTopButton.style.display = "block";
-    } else {
-        backToTopButton.style.display = "none";
-    }
+    backToTopButton.style.display = window.scrollY > 300 ? "block" : "none";
 });
 
 backToTopButton.addEventListener("click", function () {
@@ -16,24 +12,7 @@ backToTopButton.addEventListener("click", function () {
     });
 });
 
-// Scroll animations for left-to-right & right-to-left movement
-const scrollSections = document.querySelectorAll(".scroll-section");
-
-window.addEventListener("scroll", function () {
-    scrollSections.forEach((el, index) => {
-        const position = el.getBoundingClientRect().top;
-        const screenHeight = window.innerHeight;
-
-        if (position < screenHeight * 0.8) {
-            el.style.transform = `translateX(${index % 2 === 0 ? '0px' : '-50px'})`;
-            el.style.opacity = "1";
-        } else {
-            el.style.transform = `translateX(${index % 2 === 0 ? '-50px' : '50px'})`;
-            el.style.opacity = "0";
-        }
-    });
-});
-
+// Services Animation - Wheel
 const carousel = document.getElementById("services-carousel");
 const serviceTitle = document.getElementById("service-title");
 const serviceDescription = document.getElementById("service-description");
@@ -64,11 +43,11 @@ function updateImagePositions() {
     cards[currentIndex].style.transform = `scale(${2.3})`
 }
 
-function cycleServices(event) {
+function cycleServices(dir) {
     if (isScrolling) return;
     isScrolling = true;
 
-    if (event.deltaY > 0) {
+    if (dir > 0) {
         currentIndex = (currentIndex + 1) % totalCards;
     } else {
         currentIndex = (currentIndex - 1 + totalCards) % totalCards;
@@ -79,16 +58,80 @@ function cycleServices(event) {
 
     setTimeout(() => {
         isScrolling = false;
-    }, 300);
+    }, 650);
+}
+
+function handleWheel(event) {
+    event.preventDefault();
+    cycleServices(event.deltaY > 0 ? 1 : -1);
 }
 
 function enableScroll() {
-    carousel.addEventListener("wheel", cycleServices);
+    carousel.addEventListener("wheel", handleWheel, {passive: false});
 }
 
-function disableScroll() {
-    carousel.removeEventListener("wheel", cycleServices);
-}
+// Services Animation - Swipe
+let startY = 0;
+let endY = 0;
+let threshold = 50;
+const servicesContainer = document.getElementById("services-container");
+
+servicesContainer.addEventListener("touchstart", (event) => {
+    startY = event.touches[0].clientY;
+    event.preventDefault(); 
+}, {passive: false});
+
+servicesContainer.addEventListener("touchmove", (event) => {
+    endY = event.touches[0].clientY;
+    event.preventDefault(); 
+}, {passive: false});
+
+servicesContainer.addEventListener("touchend", () => {
+    let swipeDistance = endY - startY;
+    if (Math.abs(swipeDistance) > threshold) {
+        if (swipeDistance < 0) {
+            currentIndex = (currentIndex + 1) % totalCards;
+        } else {
+            currentIndex = (currentIndex - 1 + totalCards) % totalCards;
+        }
+
+        updateServiceInfo(currentIndex);
+        updateImagePositions();
+    }
+});
+
+// Services Animation - Drag on Mouse
+let isDragging = false;
+let dragStartY = 0;
+servicesContainer.addEventListener("mousedown", (event) => {
+    isDragging = true;
+    dragStartY = event.clientY;
+    event.preventDefault(); 
+});
+
+servicesContainer.addEventListener("mousemove", (event) => {
+    if (!isDragging) return;
+    let moveDistance = event.clientY - dragStartY;
+    if (Math.abs(moveDistance) > threshold) {
+        if (moveDistance < 0) {
+            currentIndex = (currentIndex + 1) % totalCards;
+        } else {
+            currentIndex = (currentIndex - 1 + totalCards) % totalCards;
+        }
+
+        updateServiceInfo(currentIndex);
+        updateImagePositions();
+        isDragging = false;
+    }
+});
+
+servicesContainer.addEventListener("mouseup", () => {
+    isDragging = false;
+});
+
+servicesContainer.addEventListener("mouseleave", () => {
+    isDragging = false;
+});
 
 updateServiceInfo(currentIndex);
 updateImagePositions();
