@@ -52,11 +52,9 @@ function updateImagePositions() {
 }
 
 function cycleServices(dir) {
-function cycleServices(dir) {
     if (isScrolling) return;
     isScrolling = true;
 
-    if (dir > 0) {
     if (dir > 0) {
         currentIndex = (currentIndex + 1) % totalCards;
     } else {
