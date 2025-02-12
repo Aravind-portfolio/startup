@@ -13,6 +13,7 @@ backToTopButton.addEventListener("click", function () {
 });
 
 // Services Animation - Wheel
+// Services Animation - Wheel
 const carousel = document.getElementById("services-carousel");
 const serviceTitle = document.getElementById("service-title");
 const serviceDescription = document.getElementById("service-description");
@@ -51,9 +52,11 @@ function updateImagePositions() {
 }
 
 function cycleServices(dir) {
+function cycleServices(dir) {
     if (isScrolling) return;
     isScrolling = true;
 
+    if (dir > 0) {
     if (dir > 0) {
         currentIndex = (currentIndex + 1) % totalCards;
     } else {
@@ -65,6 +68,12 @@ function cycleServices(dir) {
 
     setTimeout(() => {
         isScrolling = false;
+    }, 650);
+}
+
+function handleWheel(event) {
+    event.preventDefault();
+    cycleServices(event.deltaY > 0 ? 1 : -1);
     }, 650);
 }
 
