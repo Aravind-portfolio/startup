@@ -12,6 +12,70 @@ backToTopButton.addEventListener("click", function () {
     });
 });
 
+// Typewriter Animation Trigger
+const servicesSection = document.getElementById("services-container");
+const typewriterText = document.querySelector(".typewriter h1");
+
+let textContent = typewriterText.textContent.trim();
+let isTyping = false;
+let lastScrollY = window.scrollY;
+let hasAppeared = false; 
+
+const typeWriterEffect = (text, forward = true) => {
+    let index = forward ? 0 : text.length;
+    isTyping = true;
+        
+    const interval = setInterval(() => {
+        typewriterText.textContent = text.slice(0, index + 1);
+
+        if (forward && index === text.length) {
+            typewriterText.classList.add("no-cursor"); 
+        } else if (!forward && index === text.length - 1) {
+            typewriterText.classList.remove("no-cursor"); 
+        }
+
+        if (forward) {
+            typewriterText.style.opacity = "1";
+            index++;
+            if (index > text.length) {
+                clearInterval(interval);
+                isTyping = false;
+                hasAppeared = true; 
+            }
+        } else {
+            index--;
+            if (index < 0) {
+                clearInterval(interval);
+                typewriterText.style.opacity = "0";
+                isTyping = false;
+                hasAppeared = false; 
+            }
+        }
+    }, 100);
+};
+
+window.addEventListener("scroll", () => {
+    let currentScrollY = window.scrollY;
+    let sectionTop = servicesSection.offsetTop;
+    let sectionHeight = servicesSection.offsetHeight;
+
+    if (currentScrollY > lastScrollY) {
+        if (!hasAppeared && currentScrollY + window.innerHeight >= sectionTop + sectionHeight / 2) {
+            if (!isTyping) {
+                typeWriterEffect(textContent, true); 
+            }
+        }
+    } else {
+        if (hasAppeared && currentScrollY + window.innerHeight < sectionTop + sectionHeight / 2) {
+            if (!isTyping) {
+                typeWriterEffect(textContent, false);
+            }
+        }
+    }
+
+    lastScrollY = currentScrollY; 
+});
+
 // Services Animation - Wheel
 const carousel = document.getElementById("services-carousel");
 const serviceTitle = document.getElementById("service-title");
@@ -26,8 +90,15 @@ const angleIncrement = (2 * Math.PI) / totalCards;
 
 function updateServiceInfo(index) {
     if (!cards[index]) return;
-    serviceTitle.textContent = cards[index].getAttribute("data-title");
-    serviceDescription.textContent = cards[index].getAttribute("data-description");
+    serviceTitle.classList.remove('active');
+    serviceDescription.classList.remove('active');
+    setTimeout(() => {
+        serviceTitle.textContent = cards[index].getAttribute("data-title");
+        serviceDescription.textContent = cards[index].getAttribute("data-description");
+
+        serviceTitle.classList.add('active');
+        serviceDescription.classList.add('active');
+    }, 200);
 }
 
 function updateImagePositions() {
@@ -74,19 +145,19 @@ function enableScroll() {
 let startY = 0;
 let endY = 0;
 let threshold = 50;
-const servicesContainer = document.getElementById("services-container");
+const servicesCarousel = document.getElementById("services-carousel");
 
-servicesContainer.addEventListener("touchstart", (event) => {
+servicesCarousel.addEventListener("touchstart", (event) => {
     startY = event.touches[0].clientY;
     event.preventDefault(); 
 }, {passive: false});
 
-servicesContainer.addEventListener("touchmove", (event) => {
+servicesCarousel.addEventListener("touchmove", (event) => {
     endY = event.touches[0].clientY;
     event.preventDefault(); 
 }, {passive: false});
 
-servicesContainer.addEventListener("touchend", () => {
+servicesCarousel.addEventListener("touchend", () => {
     let swipeDistance = endY - startY;
     if (Math.abs(swipeDistance) > threshold) {
         if (swipeDistance < 0) {
@@ -103,13 +174,13 @@ servicesContainer.addEventListener("touchend", () => {
 // Services Animation - Drag on Mouse
 let isDragging = false;
 let dragStartY = 0;
-servicesContainer.addEventListener("mousedown", (event) => {
+servicesCarousel.addEventListener("mousedown", (event) => {
     isDragging = true;
     dragStartY = event.clientY;
     event.preventDefault(); 
 });
 
-servicesContainer.addEventListener("mousemove", (event) => {
+servicesCarousel.addEventListener("mousemove", (event) => {
     if (!isDragging) return;
     let moveDistance = event.clientY - dragStartY;
     if (Math.abs(moveDistance) > threshold) {
@@ -125,11 +196,11 @@ servicesContainer.addEventListener("mousemove", (event) => {
     }
 });
 
-servicesContainer.addEventListener("mouseup", () => {
+servicesCarousel.addEventListener("mouseup", () => {
     isDragging = false;
 });
 
-servicesContainer.addEventListener("mouseleave", () => {
+servicesCarousel.addEventListener("mouseleave", () => {
     isDragging = false;
 });
 

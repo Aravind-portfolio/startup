@@ -61,7 +61,7 @@ h2 {
 }
 
 #services-description {
-    padding: 12vw;
+    padding: 5vw;
     background: #fff;
     display: flex;
     flex-direction: column;
@@ -72,16 +72,40 @@ h2 {
 #services-description h2 {
     font-size: 24px;
     color: #333;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
 }
 
 #services-description p {
     font-size: 16px;
     color: #666;
     text-align: center;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+#services-description h2.active,
+#services-description p.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+#services-description h2:hover {
+    color: #ffcc00;
+    text-shadow: 10px rgba(90, 85, 66, 0.4);
+    transition: color 0.2s ease-in-out, text-shadow 0.3s ease-in-out;
+    cursor: context-menu;
+}
+
+#services-description p:hover {
+    color: #444; 
+    cursor: context-menu;
 }
 
 #services-carousel {
-    width: 100%;
+    width: 50%;
     overflow-y: auto;
     position: relative;
     display: flex;
@@ -156,10 +180,31 @@ footer p:hover {
     opacity: 0.8;
 }
 
-/* Scroll Animations */
-.scroll-section {
+/* Typewriter Animation */
+.typewriter {
+    display: flex;
+    justify-content: center;
+}
+
+.typewriter h1 {
+    font-size: 2rem;
+    margin-inline: auto;
+    overflow: hidden;
+    white-space: nowrap;
+    border-right: 1px solid black;
+    animation: blink 0.7s step-end infinite;
     opacity: 0;
-    transition: transform 0.5s ease-out, opacity 0.5s ease-out;
+}
+
+.no-cursor {
+    border-right: none !important;
+    animation: none !important;
+}
+
+@keyframes blink {
+    50% {
+        border-color: transparent;
+    }
 }
 
 /* Responsive */
@@ -172,12 +217,20 @@ footer p:hover {
     }
     #services-container {
         flex-direction: column;
-        height: 120vh;
+        height: 70vh;
         width: 100%;
+
     }
-    #services-description, #services-carousel {
+    #services-carousel {
         width: 100%;
-        height: 50%;
+        height: 60%;
+    }
+    #services-description {
+        width: 100%;
+        height: 40%;
+        align-items: center;
+        justify-content: flex-start;
+        padding: 3vh;
     }
     .service-card {
         height: 40%;
