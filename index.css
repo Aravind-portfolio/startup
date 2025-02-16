@@ -180,6 +180,34 @@ footer p:hover {
     opacity: 0.8;
 }
 
+
+/* Typewriter Animation */
+.typewriter {
+    display: flex;
+    justify-content: center;
+}
+
+.typewriter h1 {
+    font-size: 2rem;
+    margin-inline: auto;
+    overflow: hidden;
+    white-space: nowrap;
+    border-right: 1px solid black;
+    animation: blink 0.7s step-end infinite;
+    opacity: 0;
+}
+
+.no-cursor {
+    border-right: none !important;
+    animation: none !important;
+}
+
+@keyframes blink {
+    50% {
+        border-color: transparent;
+    }
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     h2 {
@@ -191,8 +219,8 @@ footer p:hover {
     #services-container {
         flex-direction: column;
         height: 70vh;
-        width: 100%;
 
+        width: 100%;
     }
     #services-carousel {
         width: 100%;

@@ -12,6 +12,70 @@ backToTopButton.addEventListener("click", function () {
     });
 });
 
+// Typewriter Animation Trigger
+const servicesSection = document.getElementById("services-container");
+const typewriterText = document.querySelector(".typewriter h1");
+
+let textContent = typewriterText.textContent.trim();
+let isTyping = false;
+let lastScrollY = window.scrollY;
+let hasAppeared = false; 
+
+const typeWriterEffect = (text, forward = true) => {
+    let index = forward ? 0 : text.length;
+    isTyping = true;
+        
+    const interval = setInterval(() => {
+        typewriterText.textContent = text.slice(0, index + 1);
+
+        if (forward && index === text.length) {
+            typewriterText.classList.add("no-cursor"); 
+        } else if (!forward && index === text.length - 1) {
+            typewriterText.classList.remove("no-cursor"); 
+        }
+
+        if (forward) {
+            typewriterText.style.opacity = "1";
+            index++;
+            if (index > text.length) {
+                clearInterval(interval);
+                isTyping = false;
+                hasAppeared = true; 
+            }
+        } else {
+            index--;
+            if (index < 0) {
+                clearInterval(interval);
+                typewriterText.style.opacity = "0";
+                isTyping = false;
+                hasAppeared = false; 
+            }
+        }
+    }, 100);
+};
+
+window.addEventListener("scroll", () => {
+    let currentScrollY = window.scrollY;
+    let sectionTop = servicesSection.offsetTop;
+    let sectionHeight = servicesSection.offsetHeight;
+
+    if (currentScrollY > lastScrollY) {
+        if (!hasAppeared && currentScrollY + window.innerHeight >= sectionTop + sectionHeight / 2) {
+            if (!isTyping) {
+                typeWriterEffect(textContent, true); 
+            }
+        }
+    } else {
+        if (hasAppeared && currentScrollY + window.innerHeight < sectionTop + sectionHeight / 2) {
+            if (!isTyping) {
+                typeWriterEffect(textContent, false);
+            }
+        }
+    }
+
+    lastScrollY = currentScrollY; 
+});
+
 // Services Animation - Wheel
 // Services Animation - Wheel
 const carousel = document.getElementById("services-carousel");
