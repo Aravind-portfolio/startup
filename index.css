@@ -180,6 +180,7 @@ footer p:hover {
     opacity: 0.8;
 }
 
+
 /* Typewriter Animation */
 .typewriter {
     display: flex;
@@ -218,8 +219,8 @@ footer p:hover {
     #services-container {
         flex-direction: column;
         height: 70vh;
-        width: 100%;
 
+        width: 100%;
     }
     #services-carousel {
         width: 100%;

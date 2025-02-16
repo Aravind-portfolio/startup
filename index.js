@@ -77,6 +77,7 @@ window.addEventListener("scroll", () => {
 });
 
 // Services Animation - Wheel
+// Services Animation - Wheel
 const carousel = document.getElementById("services-carousel");
 const serviceTitle = document.getElementById("service-title");
 const serviceDescription = document.getElementById("service-description");
